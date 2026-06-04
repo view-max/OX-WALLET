@@ -25,12 +25,18 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
+    - name: Create Assets Target Directory
+      run: mkdir -p android/app/src/main/assets
+
+    - name: Compile JavaScript Asset Bundle Standalone
+      run: npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+
     - name: Compile Standalone Release Package
       run: |
         cd android
         chmod +x gradlew
         ./gradlew clean
-        ./gradlew assembleRelease
+        ./gradlew assembleRelease -x bundleReleaseJsAndAssets
 
     - name: Upload Finished Wallet Installer
       uses: actions/upload-artifact@v4
