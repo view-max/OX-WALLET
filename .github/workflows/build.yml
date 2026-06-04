@@ -22,14 +22,6 @@ jobs:
     - name: Set up Java Environment
       uses: actions/setup-java@v4
       with:
-        node-version: '18'
-
-    - name: Install App Dependencies
-      run: yarn install
-
-    - name: Set up Java Environment
-      uses: actions/setup-java@v4
-      with:
         distribution: 'temurin'
         java-version: '17'
 
