@@ -1,0 +1,46 @@
+name: Build Wallet Test APK
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get Wallet Code
+      uses: actions/checkout@v4
+
+    - name: Install System Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install App Dependencies
+      run: yarn install
+
+    - name: Set up Java Environment
+      uses: actions/setup-java@v4
+      with:
+        node-version: '18'
+
+    - name: Install App Dependencies
+      run: yarn install
+
+    - name: Set up Java Environment
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Compile Android Testing Package
+      run: |
+        cd android
+        chmod +x gradlew
+        ./gradlew assembleDebug
+
+    - name: Upload Finished Wallet Installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: OX-Wallet-Test
+        path: android/app/build/outputs/apk/debug/app-debug.apk
