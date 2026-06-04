@@ -1,4 +1,4 @@
-name: Build Wallet Test APK
+name: Build Wallet Standalone APK
 on:
   push:
     branches: [ "main" ]
@@ -25,14 +25,14 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Compile Android Testing Package
+    - name: Compile Standalone Release Package
       run: |
         cd android
         chmod +x gradlew
-        ./gradlew assembleDebug
+        ./gradlew assembleRelease
 
     - name: Upload Finished Wallet Installer
       uses: actions/upload-artifact@v4
       with:
-        name: OX-Wallet-Test
-        path: android/app/build/outputs/apk/debug/app-debug.apk
+        name: OX-Wallet-Release
+        path: android/app/build/outputs/apk/release/app-release-unsigned.apk
